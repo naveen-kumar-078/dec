@@ -24,3 +24,13 @@ z.append("yellow")
 thetuple = tuple(z)
 
 print(thetuple)
+
+
+# add values in tuples ny using tuples
+
+add = ("bus","lorry","car")
+x = ("bike",)
+
+add +=x
+print(add)
+
