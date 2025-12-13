@@ -34,3 +34,7 @@ x = ("bike",)
 add +=x
 print(add)
 
+
+
+#removing an particular data
+

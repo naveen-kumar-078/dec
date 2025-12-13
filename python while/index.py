@@ -1,4 +1,3 @@
-i = 7
-while i <10:
-    print(i)
-    i+=1
+x = 5
+x **=7
+print(x)
