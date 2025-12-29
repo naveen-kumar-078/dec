@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autify- Smart Vehicle Management</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+    <!-- Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body class="dark-theme">
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <span class="material-icons-round brand-icon">directions_car_filled</span>
+                <h1>Autofy</h1>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-item active" data-view="dashboard">
+                    <span class="material-icons-round">dashboard</span>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" data-view="vehicles">
+                    <span class="material-icons-round">garage</span>
+                    <span>My Vehicles</span>
+                </button>
+                <button class="nav-item" data-view="maintenance">
+                    <span class="material-icons-round">build</span>
+                    <span>Maintenance</span>
+                </button>
+                <button class="nav-item" data-view="expenses">
+                    <span class="material-icons-round">account_balance_wallet</span>
+                    <span>Expenses</span>
+                </button>
+                <button class="nav-item" data-view="trips">
+                    <span class="material-icons-round">map</span>
+                    <span>Trip Logger</span>
+                </button>
+            </nav>
+
+            <div class="user-profile-mini">
+                <div class="avatar">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" />
+                </div>
+                <div class="user-info">
+                    <p class="name">Alex DRIVER</p>
+                    <p class="role">Premium Member</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-bar">
+                <h2 id="pageTitle">Dashboard</h2>
+                <div class="actions">
+                    <button class="icon-btn" id="themeToggle" title="Toggle Theme">
+                        <span class="material-icons-round">light_mode</span>
+                    </button>
+                    <div class="notification-wrapper">
+                        <button class="icon-btn" id="notificationBtn" title="Notifications">
+                            <span class="material-icons-round">notifications</span>
+                            <span class="badge" id="notificationBadge">3</span>
+                        </button>
+                        <!-- Notification Dropdown -->
+                        <div class="notification-dropdown hidden" id="notificationDropdown">
+                            <div class="dropdown-header">
+                                <h3>Notifications</h3>
+                                <button class="mark-read">Mark all read</button>
+                            </div>
+                            <ul class="notification-list" id="notificationList">
+                                <!-- Populated via JS -->
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="btn-primary" id="addQuickAction">
+                        <span class="material-icons-round">add</span>
+                        <span>Quick Log</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Views Container -->
+            <div id="viewsContainer" class="views-wrapper">
+
+                <!-- DASHBOARD VIEW -->
+                <section id="dashboard" class="view active">
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="icon-box blue">
+                                <span class="material-icons-round">health_and_safety</span>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Vehicle Health</h3>
+                                <p class="value">Good</p>
+                                <span class="trend positive">All systems nominal</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon-box orange">
+                                <span class="material-icons-round">warning</span>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Maintenance</h3>
+                                <p class="value">2 Due</p>
+                                <span class="trend negative">Oil Change in 200km</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon-box green">
+                                <span class="material-icons-round">trending_up</span>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Efficiency</h3>
+                                <p class="value">12.5 km/l</p>
+                                <span class="trend positive">+1.2% this month</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon-box purple">
+                                <span class="material-icons-round">payments</span>
+                            </div>
+                            <div class="stat-info">
+                                <h3>This Month</h3>
+                                <p class="value">$145.00</p>
+                                <span class="trend">Fuel & Parking</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts & Recent -->
+                    <div class="dashboard-grid">
+                        <div class="card chart-card">
+                            <div class="card-header">
+                                <h3>Expense Overview</h3>
+                                <select class="mini-select">
+                                    <option>Last 6 Months</option>
+                                    <option>This Year</option>
+                                </select>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="dashboardChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="card recent-activity">
+                            <div class="card-header">
+                                <h3>Recent Activity</h3>
+                                <a href="#" class="view-all">View All</a>
+                            </div>
+                            <ul class="activity-list">
+                                <!-- Populated by JS -->
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VEHICLES VIEW -->
+                <section id="vehicles" class="view hidden">
+                    <div class="grid-header">
+                        <div class="search-box">
+                            <span class="material-icons-round">search</span>
+                            <input type="text" placeholder="Search your vehicles...">
+                        </div>
+                        <button class="btn-secondary" id="btnAddVehicle">
+                            <span class="material-icons-round">add_circle</span>
+                            Add Vehicle
+                        </button>
+                    </div>
+                    <div class="vehicles-grid" id="vehiclesList">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+
+                <!-- MAINTENANCE VIEW -->
+                <section id="maintenance" class="view hidden">
+                    <!-- Content populated by JS -->
+                    <div class="empty-state">
+                        <span class="material-icons-round">build_circle</span>
+                        <h3>Maintenance Tracker</h3>
+                        <p>Keep track of all your services and repairs.</p>
+                    </div>
+                </section>
+
+                <!-- EXPENSES VIEW -->
+                <section id="expenses" class="view hidden">
+                    <!-- Content populated by JS -->
+                    <div class="empty-state">
+                        <span class="material-icons-round">receipt_long</span>
+                        <h3>Expense Log</h3>
+                        <p>Track fuel, insurance, and service costs.</p>
+                    </div>
+                </section>
+
+                <!-- TRIPS VIEW -->
+                <section id="trips" class="view hidden">
+                    <!-- Content populated by JS -->
+                    <div class="empty-state">
+                        <span class="material-icons-round">map</span>
+                        <h3>Trip Logs</h3>
+                        <p>Record your personal and business trips.</p>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="modalOverlay" class="modal-overlay hidden">
+        <div class="modal glass-panel">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add Vehicle</h3>
+                <button class="close-modal"><span class="material-icons-round">close</span></button>
+            </div>
+            <div class="modal-body">
+                <form id="genericForm">
+                    <!-- Dynamic Form Content -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-text close-modal">Cancel</button>
+                <button class="btn-primary" id="modalSubmitBtn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlayZone | The Ultimate Gaming Marketplace</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Rajdhani:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="index.css">
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+
+<body>
+
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Main Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fa-solid fa-gamepad logo-icon"></i>
+            <span>PlayZone</span>
+        </div>
+
+        <div class="nav-search">
+            <input type="text" placeholder="Search for games...">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+
+        <ul class="nav-links">
+            <li class="active" onclick="navigateTo('store')">Store</li>
+            <li onclick="navigateTo('library')">Library</li>
+            <li onclick="navigateTo('community')">Community</li>
+            <li onclick="openAbout()">About</li>
+        </ul>
+
+        <div class="nav-user">
+            <div class="cart-icon" onclick="navigateTo('cart')">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-count" id="nav-cart-count">0</span>
+            </div>
+            <div class="user-avatar" onclick="navigateTo('profile')">
+                <i class="fa-solid fa-user"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="app-container">
+
+        <!-- STORE PAGE (Default) -->
+        <div id="view-store" class="view-section active">
+            <!-- Hero Section -->
+            <header class="hero">
+                <div class="hero-content">
+                    <span class="badge-new">NEW RELEASE</span>
+                    <h1 class="glitch-text" data-text="CYBERPUNK 2077">WELCOME TO THE PLAY ZONE</h1>
+                    <p class="hero-desc">Step into the dark future. Create your own legend in Night City.</p>
+
+                </div>
+                <div class="hero-visual">
+                    <!-- Using the generated hero image as a focused element or background part -->
+                </div>
+            </header>
+
+            <!-- Categories -->
+            <section class="categories">
+                <div class="category-card" onclick="filterGames('pc')" style="--accent: #00f2ea;">
+                    <i class="fa-brands fa-windows"></i>
+                    <span>PC Games</span>
+                </div>
+                <div class="category-card" onclick="filterGames('trending')" style="--accent: #c51c54;">
+                    <i class="fa-solid fa-fire"></i>
+                    <span>Trending</span>
+                </div>
+                <div class="category-card" onclick="filterGames('console')" style="--accent: #aadd00;">
+                    <i class="fa-solid fa-gamepad"></i>
+                    <span>Console</span>
+                </div>
+                <div class="category-card" onclick="filterGames('vr')" style="--accent: #9900ff;">
+                    <i class="fa-solid fa-vr-cardboard"></i>
+                    <span>VR Ready</span>
+                </div>
+            </section>
+
+            <!-- Trending Section -->
+            <section class="games-section" style="--section-accent: #ff0055;">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fa-solid fa-fire"></i> Trending Now</h2>
+                    <button class="btn-view-all">View All</button>
+                </div>
+                <div class="games-grid" id="trending-grid">
+                    <!-- Injected by JS -->
+                </div>
+            </section>
+
+            <!-- Console Section -->
+            <section class="games-section" style="--section-accent: #aadd00;">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fa-solid fa-gamepad"></i> Console Exclusives</h2>
+                    <button class="btn-view-all">View All</button>
+                </div>
+                <div class="games-grid" id="console-grid">
+                    <!-- Injected by JS -->
+                </div>
+            </section>
+
+            <!-- VR Section -->
+            <section class="games-section" style="--section-accent: #9900ff;">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fa-solid fa-vr-cardboard"></i> VR Ready</h2>
+                    <button class="btn-view-all">View All</button>
+                </div>
+                <div class="games-grid" id="vr-grid">
+                    <!-- Injected by JS -->
+                </div>
+            </section>
+        </div>
+
+        <!-- LIBRARY PAGE -->
+        <div id="view-library" class="view-section" style="display: none;">
+            <div class="page-header">
+                <h1>My Game Library</h1>
+                <div class="library-controls">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search library..." onkeyup="filterLibrary(this.value)">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" onclick="filterLibraryTab('all')">All Games</button>
+                        <button class="filter-tab" onclick="filterLibraryTab('installed')">Installed</button>
+                        <button class="filter-tab" onclick="filterLibraryTab('recent')">Recently Played</button>
+                    </div>
+                </div>
+            </div>
+            <div id="library-grid" class="games-grid">
+                <!-- Library items injected by JS -->
+            </div>
+            <div id="library-empty" class="empty-state" style="display: none;">
+                <i class="fa-solid fa-ghost"></i>
+                <h3>Your library is empty</h3>
+                <p>Browse the store to get started!</p>
+                <button class="btn btn-primary" onclick="navigateTo('store')">Browse Store</button>
+            </div>
+        </div>
+
+        <!-- COMMUNITY PAGE -->
+        <div id="view-community" class="view-section" style="display: none;">
+            <div class="page-header">
+                <h1>PlayZone Community</h1>
+            </div>
+
+            <div class="community-grid">
+                <!-- News Section -->
+                <section class="comm-section news-section">
+                    <h3><i class="fa-regular fa-newspaper"></i> News & Updates</h3>
+                    <div class="news-cards" id="news-feed">
+                        <!-- News injected here -->
+                    </div>
+                </section>
+
+                <!-- Active Players & Sidebar -->
+                <aside class="comm-sidebar">
+                    <div class="active-players-card">
+                        <h3>Active Players</h3>
+                        <div class="online-count">
+                            <span class="status-dot"></span>
+                            <span id="player-count">0</span> online
+                        </div>
+                        <ul class="popular-now">
+                            <li><span>Cyberpunk 2077</span> <span class="count">12k</span></li>
+                            <li><span>Elden Ring</span> <span class="count">8.5k</span></li>
+                            <li><span>Apex Legends</span> <span class="count">54k</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="events-card">
+                        <h3>Upcoming Events</h3>
+                        <div class="event-item">
+                            <div class="date-box"><span>DEC</span><span>24</span></div>
+                            <div class="event-info">
+                                <h4>Winter Tournament</h4>
+                                <p>Apex Legends</p>
+                            </div>
+                            <button class="btn-sm btn-outline">Join</button>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Forums -->
+                <section class="comm-section forums-section">
+                    <h3><i class="fa-solid fa-comments"></i> Community Forums</h3>
+                    <div class="forum-categories">
+                        <div class="forum-row">
+                            <div class="forum-icon"><i class="fa-solid fa-globe"></i></div>
+                            <div class="forum-details">
+                                <h4>General Discussion</h4>
+                                <p>Talk about anything gaming related</p>
+                            </div>
+                            <div class="forum-stats">1.2k Threads</div>
+                        </div>
+                        <div class="forum-row">
+                            <div class="forum-icon"><i class="fa-solid fa-circle-question"></i></div>
+                            <div class="forum-details">
+                                <h4>Game Help</h4>
+                                <p>Stuck? Get help from the community</p>
+                            </div>
+                            <div class="forum-stats">856 Threads</div>
+                        </div>
+                        <div class="forum-row">
+                            <div class="forum-icon"><i class="fa-solid fa-bug"></i></div>
+                            <div class="forum-details">
+                                <h4>Bug Reports</h4>
+                                <p>Report issues and glitches</p>
+                            </div>
+                            <div class="forum-stats">342 Threads</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Screenshots -->
+                <section class="comm-section gallery-section">
+                    <h3>Featured Artwork</h3>
+                    <div class="gallery-grid" id="community-gallery">
+                        <!-- Images injected here -->
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- CART PAGE -->
+        <div id="view-cart" class="view-section" style="display: none;">
+            <div class="page-header">
+                <h1>My Cart</h1>
+            </div>
+            <div class="cart-layout">
+                <div class="cart-items" id="cart-items-container">
+                    <!-- Items -->
+                </div>
+                <div class="cart-summary">
+                    <h3>Order Summary</h3>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="cart-subtotal">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax (8%)</span>
+                        <span id="cart-tax">$0.00</span>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="cart-total">$0.00</span>
+                    </div>
+                    <button class="btn btn-primary full-width" onclick="processCheckout()">Proceed to Checkout</button>
+                    <button class="btn btn-outline full-width" onclick="navigateTo('store')">Continue Shopping</button>
+                </div>
+            </div>
+
+            <div class="recent-purchases">
+                <h3>Your Recent Purchases</h3>
+                <div class="mini-games-grid" id="recent-purchases-grid">
+                    <!-- Recent items -->
+                </div>
+            </div>
+        </div>
+
+        <!-- PROFILE PAGE -->
+        <div id="view-profile" class="view-section" style="display: none;">
+            <!-- Not Logged In State -->
+            <div id="auth-container" class="auth-wrapper">
+                <div class="auth-box">
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+                        <button class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
+                    </div>
+
+                    <!-- Login Form -->
+                    <form id="login-form" class="auth-form active" onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" required placeholder="user@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <div class="password-input">
+                                <input type="password" required placeholder="••••••••">
+                                <i class="fa-solid fa-eye toggle-password" onclick="togglePassword(this)"></i>
+                            </div>
+                        </div>
+                        <div class="form-options">
+                            <label><input type="checkbox"> Remember me</label>
+                            <a href="#">Forgot password?</a>
+                        </div>
+                        <button type="submit" class="btn btn-primary full-width">Login</button>
+                        <div class="divider-text"><span>Or sign in with</span></div>
+                        <div class="social-login">
+                            <button type="button" class="btn-icon"><i class="fa-brands fa-google"></i></button>
+                            <button type="button" class="btn-icon"><i class="fa-brands fa-paypal"></i></button>
+                        </div>
+                    </form>
+
+                    <!-- Signup Form -->
+                    <form id="signup-form" class="auth-form" onsubmit="handleSignup(event)">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" required placeholder="GamerTag123">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" required placeholder="user@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <div class="password-input">
+                                <input type="password" required placeholder="••••••••">
+                                <i class="fa-solid fa-eye toggle-password" onclick="togglePassword(this)"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <div class="password-input">
+                                <input type="password" required placeholder="••••••••">
+                            </div>
+                        </div>
+                        <div class="form-options">
+                            <label><input type="checkbox" required> I agree to Terms & Conditions</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary full-width">Create Account</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Logged In State -->
+            <div id="profile-dashboard" class="profile-dashboard" style="display: none;">
+                <div class="profile-header">
+                    <div class="profile-user">
+                        <div class="profile-avatar large">
+                            <img src="https://ui-avatars.com/api/?name=User&background=00f2ea&color=000"
+                                id="user-avatar-img" alt="User">
+                        </div>
+                        <div class="profile-info">
+                            <h2 id="profile-username">GamerTag</h2>
+                            <span>Member since 2024</span>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat-box">
+                            <span class="stat-value" id="stat-games">12</span>
+                            <span class="stat-label">Games</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-value" id="stat-hours">340</span>
+                            <span class="stat-label">Hours</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-value">15</span>
+                            <span class="stat-label">Friends</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-content">
+                    <div class="settings-form">
+                        <h3>Profile Settings</h3>
+                        <form onsubmit="handleProfileUpdate(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input type="text" value="John Doe">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" value="john@example.com">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Language</label>
+                                    <select>
+                                        <option>English</option>
+                                        <option>Spanish</option>
+                                        <option>French</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Currency</label>
+                                    <select>
+                                        <option>USD ($)</option>
+                                        <option>EUR (€)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Newsletter</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span> Subscribe to newsletter
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                <button type="button" class="btn btn-outline" onclick="handleLogout()">Logout</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="quick-links">
+                        <h3>Quick Links</h3>
+                        <div class="link-grid">
+                            <div class="link-card" onclick="navigateTo('library')">
+                                <i class="fa-solid fa-gamepad"></i>
+                                <span>My Games</span>
+                            </div>
+                            <div class="link-card" onclick="navigateTo('cart')">
+                                <i class="fa-solid fa-receipt"></i>
+                                <span>Purchase History</span>
+                            </div>
+                            <div class="link-card">
+                                <i class="fa-solid fa-heart"></i>
+                                <span>Wishlist</span>
+                            </div>
+                            <div class="link-card">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <span>Privacy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Game Details Modal -->
+    <div class="modal-overlay" id="game-modal">
+        <div class="modal-content game-modal-content">
+            <button class="close-modal" onclick="closeModal('game-modal')"><i class="fa-solid fa-times"></i></button>
+            <div class="modal-banner" id="modal-banner"></div>
+            <div class="modal-info">
+                <h2 id="modal-title">Game Title</h2>
+                <div class="modal-meta">
+                    <span class="rating"><i class="fa-solid fa-star"></i> <span id="modal-rating">4.8</span></span>
+                    <span class="release-date">Released: <span id="modal-date">2024</span></span>
+                </div>
+                <p id="modal-desc">Game description goes here...</p>
+                <div class="modal-specs">
+                    <div class="spec-item">
+                        <span class="label">Developer</span>
+                        <span class="value" id="modal-dev">Studio Name</span>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <div class="price-block">
+                        <span class="discount" id="modal-discount">-20%</span>
+                        <span class="price" id="modal-price">$49.99</span>
+                    </div>
+                    <button class="btn btn-primary btn-lg" onclick="openCheckout()">Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal-content checkout-modal-content">
+            <button class="close-modal" onclick="closeModal('checkout-modal')"><i
+                    class="fa-solid fa-times"></i></button>
+            <h2>Checkout</h2>
+            <div class="order-summary">
+                <div class="summary-item">
+                    <span id="checkout-game-name">Cyberpunk 2077</span>
+                    <span id="checkout-price">$59.99</span>
+                </div>
+                <div class="divider"></div>
+                <div class="total-row">
+                    <span>Total</span>
+                    <span class="total-price" id="checkout-total">$59.99</span>
+                </div>
+            </div>
+
+            <div class="payment-methods">
+                <h3>Select Payment Method</h3>
+                <div class="payment-option selected">
+                    <i class="fa-brands fa-paypal"></i>
+                    <span>PayPal</span>
+                </div>
+                <div class="payment-option">
+                    <i class="fa-brands fa-google-pay"></i>
+                    <span>Google Pay</span>
+                </div>
+            </div>
+
+            <button class="btn btn-confirm" onclick="confirmPurchase()">
+                <i class="fa-solid fa-lock"></i>
+                Confirm Payment
+            </button>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal-overlay" id="about-modal">
+        <div class="modal-content about-modal-content">
+            <button class="close-modal" onclick="closeModal('about-modal')"><i class="fa-solid fa-times"></i></button>
+            <div class="about-header">
+                <i class="fa-solid fa-gamepad logo-icon-large"></i>
+                <h2>About PlayZone</h2>
+            </div>
+            <div class="about-body">
+                <p>Welcome to <strong>PlayZone</strong>, the ultimate destination for gamers.</p>
+                <p>We provide a curated selection of the latest and greatest games across all platforms. From
+                    high-octane action to immersive VR experiences, PlayZone has it all.</p>
+                <div class="about-features">
+                    <div class="feature">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>Instant Delivery</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Secure Payments</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fa-solid fa-headset"></i>
+                        <span>24/7 Support</span>
+                    </div>
+                </div>
+                <p class="copyright">© 2024 PlayZone Inc. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
