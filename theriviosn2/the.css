@@ -1,0 +1,23 @@
+img{
+    width: 150px;
+    height: auto;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+
+}
+
+.link{
+    text-align: center;
+    font-style: oblique;
+    text-decoration: none
+}
+
+h3{
+    text-align: center;
+    
+}
+
+body{
+    background-color: lightblue;
+}
