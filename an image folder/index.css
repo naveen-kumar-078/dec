@@ -1,7 +1,7 @@
 a:link{
     background-color: aquamarine;
-    display: inline-block;
-    padding: 30px;
+    display:inline-flex;
+    padding: 20px;
     text-decoration: none;
 }
 
