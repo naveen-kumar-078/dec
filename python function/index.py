@@ -27,17 +27,62 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # def my_function(name):
 #     print("hello",name)
 # my_function("world")
 
 
-def my_function(name = "freind"):
-    print("hello",name)
-my_function("email")
-my_function("kesi")
-my_function()
-my_function("ravi")
+# def my_function(name = "freind"):
+#     print("hello",name)
+# my_function("email")
+# my_function("kesi")
+# my_function()
+# my_function("ravi")
+
+
+
+
+
+# def my_function(fname = "karanan"):
+#     print("hello ",fname)
+
+# my_function("emil")
+# my_function ()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
