@@ -71,12 +71,97 @@
 
 
 
-class person:
-    def __init__(self ,name,age):
-        self.name =name
+# class person:
+#     def __init__(self ,name,age):
+#         self.name =name
+#         self.age = age
+
+#     def greet(self):
+#         print(f"hello,my name is {self.name} and my age is {self.age}")
+# p1 = person("emis",26)
+# p1.greet()
+
+
+
+
+
+
+
+# class myclass():
+#     x = 5
+# p1 = myclass()
+# p2 = myclass()
+# p3 = myclass()
+# print(p1.x)
+# print(p2.x)
+# print(p3.x)
+
+
+
+
+
+# class myclass():
+#     pass
+# p1= myclass()
+
+# p1.name = "ravi"
+# p1.age = 20
+
+# print(p1.name)
+# print(p1.age)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class myclass():
+    def __init__(self ,name,age=18):
+        self.name = name
         self.age = age
 
-    def greet(self):
-        print(f"hello,my name is {self.name} and my age is {self.age}")
-p1 = person("emis",26)
-p1.greet()
+p1 = myclass("naveen",30)
+p2 = myclass("kumar")
+
+print(p1.name,p1.age)
+print(p2.name,p2.age)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
